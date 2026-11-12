@@ -141,6 +141,40 @@ fun main() = runBlocking{
 /////////////////////////////////////17.8.1//////////////////////////////////////////////
 
 
+/*
+fun main() = runBlocking{
+    val batterie = MutableStateFlow<Int>(100)
+
+
+    val  sonde = launch {
+        val palier = listOf(100,80,50,20,5)
+        for (i in palier)
+        { println("--- Sonde [Ares-1] : Nouveau niveau -> ${i}%")
+            batterie.value = i
+            delay(2500)
+        }
+    }
+
+    val console_de_controle = launch { batterie.collect {  i -> println("Console : État reçu -> ${i}%")
+        if(i < 20){println("!!! ALERTE CRITIQUE : Énergie faible sur Ares-1 !!!")}
+      }
+    }
+
+    println("salut")
+    //console_de_controle.cancel()
+    println("--- Fin de mission ---")
+
+}*/
+
+/////////////////////////////////////17.8.2//////////////////////////////////////////////
+
+fun main() = runBlocking{
+    val batterie = MutableStateFlow<Int>(100)
+
+
+
+
+
 
 
 
