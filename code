@@ -1,0 +1,164 @@
+package org.example
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+
+
+
+//////////////////////////////////////16.10.1////////////////////////////////
+/*
+suspend fun obtenirMeteo(): String {
+    delay(5000)
+    return "37°C, canicule !"
+}
+
+fun main() = runBlocking {
+    println("--- Application Météo ---")
+    println("Action : L'utilisateur clique sur le bouton 'Actualiser'")
+    val met = launch { println("... Chargement des données météo en cours ...")
+        val meteo = obtenirMeteo()
+        println("Mise à jour de l'écran avec : $meteo") }
+    // On lance une coroutine pour exécuter la tâche en arrière-plan
+    // Cela évite de "figer" l'interface (le thread principal)
+
+    // 2 DO
+    println("L'interface reste réactive : l'utilisateur peut toujours cliquer ailleurs.")
+    // On attend que la coroutine soit terminée avant de fermer l'application
+    // 2 DO
+    met.join()
+    println("--- Fin de l'application ---")
+}*/
+//////////////////////////////////////16.10.2////////////////////////////////
+/*
+suspend fun telechargerPochette(): Unit {
+    println(" Début du téléchargement de la pochette...")
+    delay(5000)
+    println(" Pochette téléchargée !")
+}
+fun main() = runBlocking {
+    println(" Ouverture de l'application")
+
+    val telechargement = launch {
+        telechargerPochette()
+    }
+
+    println(" Menu principal (disponible, pendant le téléchargement)")
+
+    telechargement.join()
+
+    println(" Fin de l'application")
+}
+*/
+//////////////////////////////////////16.10.3////////////////////////////////
+
+/*
+suspend fun  recupererDonneesCamera():String{
+    println("Début caméra")
+    delay(2000)
+    println("Fin caméra (après 2s)")
+    return "Image Infrarouge"
+}
+suspend fun recupererDonneesSpectro():String {
+    println("Début spectro")
+    delay(2000)
+    println("Fin spectro (après 2s)")
+    return "Analyse Spectrale"
+}
+fun main() = runBlocking {
+    println(" Début de la mission ---")
+
+    val Resultats = async {
+        val cam = recupererDonneesCamera()
+        val spectro = recupererDonneesSpectro()
+        "$cam + $spectro"
+    }
+
+    println("Récupération des données en cours...")
+    Resultats.join()
+    println(Resultats.await())
+    println("Mission terminée")
+}
+
+*/
+//////////////////////////////////////16.10.4////////////////////////////////////
+/*
+fun main() = runBlocking {
+    println("--- Début de la maintenance station ---")
+
+val cor = launch {
+    for(i in 1..10) {
+        println("Réparation panneau solaire $i/10")
+        delay(1000)
+    }
+}
+    delay(2500)
+    println(">>>ALERTE : Annulation d'urgence !")
+    cor.cancel()
+    println("--- Mission terminée ---")
+
+}*/
+///////////////////////////////////16.10.5//////////////////////////////////////////////
+
+ fun main() = runBlocking{
+     val scopeLancement = CoroutineScope(Dispatchers.Default)
+     println("--- Centre de contrôle : Début de la séquence ---\n")
+
+     val cor = scopeLancement.launch {
+         try {
+     for(i in 1..5) {
+         if(isActive){
+         println("Étape $i : Vérification des systèmes...")
+         delay(1000) }
+         else break }
+         }
+         catch (e: CancellationException) {
+             println(">>>Capteur : Anomalie détectée ! Annulation du lancement !")
+         }
+     }
+     delay(2500)
+     cor.cancel()
+     println("--- Fin de mission ---")
+}
+
+
+
+
+/////////////////////////////////////16.12.1//////////////////////////////////////////////
+/*
+
+fun main() = runBlocking{
+    val Batterie = MutableStateFlow<Int>(100)
+
+
+
+    val  sonde = launch {}
+
+
+    val console_de_controle = launch {}
+
+}*/
+
+
+/////////////////////////////////////17.8.1//////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
