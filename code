@@ -2,7 +2,286 @@ package org.example
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
+/////////////////////////13.6.1/////////////////////////////////
+/*fun main() {
+// 1. Une lambda qui prend un Int et retourne son double
+    val doubler: (Int) -> Int = { x -> x * 2 }
+    println(doubler(5))     // attendu : 10
 
+// 2. Une lambda qui prend deux Int et retourne leur somme
+// TODO : écrire la lambda ici
+    val additionner: (Int, Int) -> Int = { x: Int, y: Int -> x + y }
+  println(additionner(3, 4)) // attendu : 7
+
+// 3. Une lambda sans paramètre qui retourne "Bonjour"
+// TODO : écrire la lambda ici
+    val saluer: () ->  String = {"Bonjour"}
+    println(saluer())      // attendu : Bonjour
+}
+*/
+//////////////////////13.6.2//////////////////////////////////////////////////
+/*
+fun calculer(x: Double, f: (Double) -> Double): Double {
+    return f(x)
+}
+
+fun main() {
+    println(calculer(3.5) { x -> x * x } )
+    println(calculer(2.0){x -> x * x * x} )
+    println(calculer(4.0){x -> 1 / x } )
+    println(calculer(7.2){x -> x * -1 } )
+    println(calculer(-6.5)  {x -> if(x > 0)x else x * -1} )
+}
+*/
+//////////////////////////13.6.3////////////////////////////////////
+/*
+fun repeter(fois: Int, action: (Int) -> Unit) {
+    for (i in 1..fois)
+    { action(i) }
+}
+
+fun main() {
+    repeter(5) { i -> println("Tour n°$i") }
+}
+
+*/
+
+////////////////////////////13.6.4////////////////////////////////////////////////////////////////
+
+/*
+    fun integrer(a: Double, b: Double, n: Int, f: (Double) -> Double): Double {
+        var somme = 0.0
+        for (i in 1..n) {
+            val x = a + (i - 0.5) * (b - a) / n
+         somme += f(x)}
+        return  (b - a) / n * somme
+    }
+fun main() {
+    println("Intégrale de x sur [0,1] : ${integrer(0.0, 1.0, 1000) { x -> x }}")
+    println("Intégrale de x² sur [0,1] : ${integrer(0.0, 1.0, 1000) { x -> x * x }}")
+    println("Intégrale de sin(x) sur [0,π] : ${integrer(0.0, PI, 1000) { x -> sin(x) }}")}
+
+*/
+///////////////////////////////13.6.5////////////////////////////////////////////////////////////
+
+/*
+fun calculerVAN(fluxfuture: Int , taux: Double , annees: Int , f: ( Double) ->  Double ) : Double {
+    var x  = Math.pow((fluxfuture / (1+taux)),annees.toDouble())
+    return f(x)
+}
+
+fun main() {
+    println("VAN brute, sans transformation :${calculerVAN(1000,0.07,10) { x -> x}}")
+    println("VAN  avec marge de sécurité de 5% :${calculerVAN(1000,0.07,10) { x -> x * 0.95}}")
+    println("VAN  brute arrondie à l'entier le plus proche :${calculerVAN(1000,0.07,10){x -> x}}")
+    println("VAN brute, estimée en Dollars (1EUR=1.08 USD), avec risque de change de 2% :${calculerVAN(1000,0.07,10){x -> (x*1.08)*0.98}}")}
+*/
+//////////////////////////////////////////13.6.6////////////////////////////////////////////////////////////////////////
+/*
+fun appliquerDeuxFois( x: Double , f: (Double) -> Double ) : Double {
+    return f(f(x))
+}
+fun composer( x: Double ,f: (Double) -> Double , g:(Double) -> Double) :  Double
+{
+    return g(f(x))
+}
+
+fun main() {
+    println(appliquerDeuxFois(5.0){ x -> x+10})
+    println(appliquerDeuxFois(3.0){ x -> x*2})
+    println(composer(4.0 ,{ x -> x+1}, { x -> x*2}))
+}
+*/
+////////////////////////////////////////14.9.1///////////////////////////////////////
+/*
+
+fun transformer(operation: (Int) -> Int, liste: List<Int>): List<Int>
+{
+    return liste.map(operation)
+}
+
+fun main() {
+    val nombres = listOf(1, 2, 3, 4)
+    val resultat = transformer({ it * 2 }, nombres)
+    println(resultat)
+}
+
+*/
+/////////////////////////////////////////14.9.2///////////////////////////////////////
+/*
+fun List<Int>.transformer(operation: (Int) -> Int): List<Int> {
+    return this.map(operation)
+}
+
+fun main() {
+
+    val nombres = listOf(1, 2, 3, 4)
+    val resultat = nombres.transformer { it * 2 }
+    println(resultat)
+}
+*/
+//////////////////////////////////////////14.9.3//////////////////////////////////////////
+
+
+
+
+//////////////////////////////////////////14.9.4/////////////////////////////////////////
+
+/*
+fun main() {
+
+    data class Livre(val titre: String, val estEmprunte: Boolean)
+
+    val bibliotheque = listOf(
+        Livre("Le Petit Prince", true),
+        Livre("1984", false),
+        Livre("La guerre des mouches", true),
+        Livre("Fondation", false))
+
+    val triesParTitre = bibliotheque.filter { it.estEmprunte == true   }
+    println(triesParTitre.sortedBy { it.titre }.forEach{println("Le livre ${it.titre} est emprunté.")})
+}
+*/
+////////////////////////////////////////////14.9.5////////////////////////////////////////
+/*
+fun main() {
+    val indices = (0..4)
+
+    val termes = indices.map { n -> 1.0 / Math.pow(2.0, n.toDouble()) }
+
+    termes.forEach { println(it) }
+}
+
+*/
+////////////////////////////////////////////14.9.6////////////////////////////////////
+
+/* V1
+fun main() {
+    data class Exoplanete(val nom: String, val distanceAl: Int, val estHabitable: Boolean)
+
+    val catalogue = listOf(
+        Exoplanete("Proxima Centauri b", 4, true),
+        Exoplanete("Kepler-452b", 1400, true),
+        Exoplanete("WASP-17b", 1300, false),
+        Exoplanete("TRAPPIST-1e", 39, true),
+        Exoplanete("HD 189733b", 64, false)
+    )
+
+    val habitable = catalogue.filter { it.estHabitable == true   }
+    println("Catalogue des mondes habitables :"+habitable.sortedBy{it.distanceAl}.forEach{println("${it.nom} (${it.distanceAl} AL)")})
+}
+
+*/
+/*
+V2
+fun main() {
+    data class Exoplanete(val nom: String, val distanceAl: Int, val estHabitable: Boolean)
+
+    val catalogue = listOf(
+        Exoplanete("Proxima Centauri b", 4, true),
+        Exoplanete("Kepler-452b", 1400, true),
+        Exoplanete("WASP-17b", 1300, false),
+        Exoplanete("TRAPPIST-1e", 39, true),
+        Exoplanete("HD 189733b", 64, false)
+    )
+
+    val habitable = catalogue.filter{it.estHabitable == true }.map{"${it.nom}" +"(${it.distanceAl} AL)"}.joinToString( separator = " / ")
+  println(habitable)
+}
+*/
+///////////////////////////////////////////14.9.7/////////////////////////////////////
+/*
+const val UA_EN_MILLIONS_KM = 149.6
+
+fun main() {
+
+    data class CorpsCeleste(val nom: String, val distanceUA: Double)
+
+    val catalogueSpatial = listOf(
+        CorpsCeleste("Mercure", 0.39),
+        CorpsCeleste("Venus", 0.72),
+        CorpsCeleste("Terre", 1.0),
+        CorpsCeleste("Mars", 1.52),
+        CorpsCeleste("Jupiter", 5.2),
+        CorpsCeleste("Saturne", 9.5),
+        CorpsCeleste("Uranus", 19.2),
+        CorpsCeleste("Neptune", 30.1),
+        CorpsCeleste("Pluton", 39.5),
+        CorpsCeleste("Eris", 67.7),
+        CorpsCeleste("Sedna", 480.0)
+    )
+    catalogueSpatial.filter { it.distanceUA > 30.0 }.map { "Objet lointain : ${it.nom} à ${(it.distanceUA * UA_EN_MILLIONS_KM).toInt()} millions de km." }.forEach { println(it) }
+}
+*/
+
+///////////////////////////////////////////////////14.9.8//////////////////////////////////
+/*
+
+fun main() {
+
+    data class Candidat(val nom: String, val prenom: String  , val moyenne: Double , val moyennePro:Double )
+
+    val lesCandidats = listOf(
+        Candidat("Dupont", "Pierre", 11.0, 12.0), // OK, moyenne générale : 11, pro : 12
+        Candidat("Durant", "Jean", 8.5, 11.0), // rattrapage OK
+        Candidat("Jaouen", "Yann", 7.0, 8.0), // recalé
+        Candidat("Le Flem", "Paul", 7.5, 15.0), // recalé
+        Candidat("Ropartz", "Guy", 15.0, 17.0), // OK
+        Candidat("Cras", "Jean", 9.0, 14.0), // rattrapage OK
+        Candidat("Ravel", "Marcel", 9.5, 10.0), // recalé, moyenne<10
+    )
+
+    fun List<Candidat>.getListCandidatsRepeches():String {
+        return this.filter{it.moyenne > 7.999 && it.moyenne < 10.00001 &&  it.moyennePro > 10 }.joinToString("\n\n") { "${it.nom} ${it.prenom}, ${it.moyenne} - ${it.moyennePro}" }
+    }
+
+    println("Liste des candidats repéchés :\n${lesCandidats.getListCandidatsRepeches()}")
+}*/
+
+
+////////////////////////////////////////////15.5.1////////////////////////////////////////////////////
+
+/*
+val maSequence = sequence {
+    var tnt = 2
+    var quantiter = 1
+    var i = 0
+    while (true)
+        if (i == 0)
+        {yield(1)
+        i=1}
+        else {
+        yield(tnt*quantiter)
+            quantiter *= 2
+        }
+}
+
+fun main() {
+
+    println(maSequence.take(10).forEach {println(it)})
+}
+*/
+
+
+////////////////////////////////////////////15.5.2////////////////////////////////////////////////////
+
+/*
+val maSequence = sequence {
+    var a = 12
+    while (true) {
+        yield(a)
+        if (a == 1) break
+        if (a % 2 == 0) {
+            a = a / 2
+        } else {
+            a = a*3+1
+        }
+    }
+}
+    fun main() {
+        println(maSequence.forEach { println(it) })
+    }
+*/
 
 //////////////////////////////////////16.10.1////////////////////////////////
 /*
